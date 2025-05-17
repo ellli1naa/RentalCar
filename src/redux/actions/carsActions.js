@@ -1,31 +1,41 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getCars, getCarById, getBrands } from "../../api/carsApi";
+import axios from "axios";
+axios.defaults.baseURL = "https://car-rental-api.goit.global";
 
-export const fetchCars = createAsyncThunk(
-  "cars/fetchCars",
-  async (filters, { getState }) => {
-    const { page } = getState().cars;
-    const response = await getCars(filters, page);
-    return response;
-  }
-);
-
-export const fetchCarById = createAsyncThunk(
-  "cars/fetchCarById",
-  async (id) => {
-    const response = await getCarById(id);
-    return response;
-  }
-);
-
-export const getBrandsAction = createAsyncThunk(
-  "cars/getBrands",
-  async ({ carId, ...brandsData }, { rejectWithValue }) => {
+export const getCars = createAsyncThunk(
+  "getCars",
+  async (
+    { brand, rentalPrice, minMileage, maxMileage, limit, page },
+    thunkAPI
+  ) => {
     try {
-      const response = await getBrands(carId, brandsData);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error.message);
+      const { data } = await axios("cars", {
+        params: { brand, rentalPrice, minMileage, maxMileage, limit, page },
+      });
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
     }
   }
 );
+
+export const getCarById = createAsyncThunk(
+  "getCarById",
+  async (id, thunkAPI) => {
+    try {
+      const { data } = await axios(`cars/${id}`);
+      return data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const getBrands = createAsyncThunk("getBrands", async (_, thunkAPI) => {
+  try {
+    const { data } = await axios("brands");
+    return data;
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});

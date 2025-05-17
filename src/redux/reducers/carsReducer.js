@@ -1,73 +1,57 @@
-import { createSlice } from "@reduxjs/toolkit";
-import {
-  fetchCars,
-  fetchCarById,
-  getBrandsAction,
-} from "../actions/carsActions";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { getCars, getCarById, getBrands } from "../actions/carsActions";
 
 const initialState = {
-  items: [],
+  cars: [],
   currentCar: null,
+  brands: [],
   loading: false,
   error: null,
   page: 1,
-  hasMore: true,
-  // initialized: false,
+  totalPages: null,
 };
 
 const carsSlice = createSlice({
   name: "cars",
   initialState,
   reducers: {
-    resetCars: (state) => {
-      state.items = [];
-      state.page = 1;
-      state.hasMore = true;
-    },
     incrementPage: (state) => {
       state.page += 1;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchCars.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCars.fulfilled, (state, action) => {
+      .addCase(getCars.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.initialized = true;
-        state.items = [...state.items, ...action.payload];
-        state.hasMore = action.payload.length > 0;
+        state.totalPages = payload.totalPages;
+        if (state.page === 1) {
+          state.cars = payload.cars;
+        } else {
+          state.cars = [...state.cars, ...payload.cars];
+        }
       })
-      .addCase(fetchCars.rejected, (state, action) => {
+      .addCase(getCarById.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.initialized = true;
-        state.error = action.payload;
+        state.currentCar = payload;
       })
-      .addCase(fetchCarById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCarById.fulfilled, (state, action) => {
+      .addCase(getBrands.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.currentCar = action.payload;
+        state.brands = payload;
       })
-      .addCase(fetchCarById.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(getBrandsAction.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getBrandsAction.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(getBrandsAction.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+      .addMatcher(
+        isAnyOf(getCars.pending, getBrands.pending, getCarById.pending),
+        (state) => {
+          state.loading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(getCars.rejected, getBrands.rejected, getCarById.rejected),
+        (state, { payload }) => {
+          state.loading = false;
+          state.error = payload || null;
+        }
+      );
   },
 });
 

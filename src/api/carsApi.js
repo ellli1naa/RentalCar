@@ -11,7 +11,8 @@ export const getCars = async (params = {}, page = 1) => {
         limit: 8,
       },
     });
-    return response.data;
+    // return response.data;
+    return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error(
       "Error fetching cars:",

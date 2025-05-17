@@ -1,58 +1,52 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { addFavorite, removeFavorite } from '../../redux/actions/favoritesActions';
-import { formatMileage } from '../../utils/formatMileage';
-import Button from '../Button/Button';
-import HeartIcon from '../Icons/HeartIcon';
+import { forwardRef } from 'react';
+import { IoIosHeartEmpty } from "react-icons/io";
+import { Link } from 'react-router-dom';
 import styles from './CarCard.module.css';
 
-const CarCard = ({ car }) => {
-  const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favorites.items);
-  const isFavorite = favorites.some((fav) => fav._id === car._id);
+const CarCard = forwardRef(({ car }, ref) => {
+  const {
+    id,
+    brand,
+    model,
+    year,
+    type,
+    img,
+    rentalPrice,
+    rentalCompany,
+    mileage,
+    address
+  } = car;
 
-  const toggleFavorite = () => {
-    if (isFavorite) {
-      dispatch(removeFavorite(car._id));
-    } else {
-      dispatch(addFavorite(car));
-    }
-  };
+  const location = address?.split(', ').slice(1).join(' | ');
 
   return (
-    <div className={styles.card}>
+    <li className={styles.card} ref={ref}>
       <div className={styles.imageWrapper}>
-        <img src={car.img} alt={car.make} className={styles.image} />
-        <button
-          type="button"
-          className={`${styles.favoriteButton} ${isFavorite ? styles.active : ''}`}
-          onClick={toggleFavorite}
-          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-        >
-          <HeartIcon />
+        <img src={img} alt={`${brand} ${model}`} className={styles.image} />
+        <button type="button" className={styles.favBtn}>
+          <IoIosHeartEmpty className={styles.disabled} />
         </button>
       </div>
-      <div className={styles.info}>
-        <div className={styles.header}>
-          <h3 className={styles.title}>
-            {car.make} <span className={styles.model}>{car.model}</span>, {car.year}
-          </h3>
-          <p className={styles.price}>${car.rentalPrice}</p>
-        </div>
-        <div className={styles.details}>
-          <span>{car.address.split(',')[1]}</span>
-          <span>{car.address.split(',')[2]}</span>
-          <span>{car.rentalCompany}</span>
-          <span>{car.type}</span>
-          <span>{car.model}</span>
-          <span>{formatMileage(car.mileage)}</span>
-          <span>{car.accessories[0]}</span>
-        </div>
+
+      <div className={styles.header}>
+        <h3 className={styles.name}>
+          {brand} <span>{model}</span>, {year}
+        </h3>
+        <h3 className={styles.name}>${rentalPrice}</h3>
       </div>
-      <Button variant="primary" to={`/catalog/${car._id}`}>
-        Learn more
-      </Button>
-    </div>
+
+      <div className={styles.details}>
+        <span>{location}</span>
+        <span>{rentalCompany}</span>
+        <span>{type[0].toUpperCase() + type.slice(1)}</span>
+        <span>{mileage.toLocaleString('uk-UA')} km</span>
+      </div>
+
+      <Link className={styles.readMore} to={`/catalog/${id}`}>
+        Read more
+      </Link>
+    </li>
   );
-};
+});
 
 export default CarCard;
