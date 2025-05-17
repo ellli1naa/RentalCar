@@ -1,0 +1,47 @@
+.header {
+  background-color: #f2f4f7;
+  /* padding: 20px 0; */
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo {
+  color: #101828;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 26px 0;
+}
+
+.logocar {
+  color: #3470ff;
+}
+
+.nav {
+  display: flex;
+  gap: 32px;
+  padding: 24px 0;
+  font-family: Manrope;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.link {
+  color: #101828;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: #0b44cd;
+}
