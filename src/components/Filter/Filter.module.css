@@ -27,7 +27,10 @@
   font-weight: 500;
   font-size: 16px;
   line-height: 1.25;
-  color: #8d929a;
+  box-shadow: 0 4px 36px 0 rgba(0, 0, 0, 0.02);
+  background: #fff;
+  border: 1px solid #f7f7f7;
+  border-radius: 12px;
 }
 
 .mileage {

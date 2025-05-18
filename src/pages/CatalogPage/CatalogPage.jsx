@@ -24,9 +24,11 @@ const CatalogPage = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <div>
       <Header />
+      <div className={styles.container}>
       <CarList />
+      </div>
     </div>
   );
 };

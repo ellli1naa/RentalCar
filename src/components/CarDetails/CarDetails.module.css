@@ -15,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  color: #101828;
 }
 
 .item {

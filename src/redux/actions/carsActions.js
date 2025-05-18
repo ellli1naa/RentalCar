@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
 axios.defaults.baseURL = "https://car-rental-api.goit.global";
 
 export const getCars = createAsyncThunk(
@@ -19,6 +20,15 @@ export const getCars = createAsyncThunk(
   }
 );
 
+export const getBrands = createAsyncThunk("getBrands", async (_, thunkAPI) => {
+  try {
+    const { data } = await axios.get("/brands");
+    return data;
+  } catch (e) {
+    return thunkAPI.rejectWithValue(e.message);
+  }
+});
+
 export const getCarById = createAsyncThunk(
   "getCarById",
   async (id, thunkAPI) => {
@@ -30,12 +40,3 @@ export const getCarById = createAsyncThunk(
     }
   }
 );
-
-export const getBrands = createAsyncThunk("getBrands", async (_, thunkAPI) => {
-  try {
-    const { data } = await axios.get("/brands");
-    return data;
-  } catch (e) {
-    return thunkAPI.rejectWithValue(e.message);
-  }
-});

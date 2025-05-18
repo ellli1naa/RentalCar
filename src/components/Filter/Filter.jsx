@@ -10,7 +10,7 @@ import { setFilters } from '../../redux/reducers/filtersReducer';
 import styles from './Filter.module.css';
 import { customSelectStyles } from './customSelectStyles';
 
-const Filter = () => {
+const Filter = ({ onSearch }) => {
   const dispatch = useDispatch();
   const brands = useSelector(selectCarsBrands);
 
@@ -18,25 +18,29 @@ const Filter = () => {
     defaultValues: {
       brand: '',
       price: null,
-      mileageFrom: '',
-      mileageTo: '',
+      mileageFrom: null,
+      mileageTo: null,
     },
   });
 
   const brandOptions = brands?.map(brand => ({ value: brand, label: brand }));
-  const priceOptions = [30, 40, 50, 60, 70, 80].map(p => ({ value: p, label: `$${p}` }));
+  const priceOptions = [30, 40, 50, 60, 70, 80].map(p => ({
+    value: p,
+    label: `To $${p}`,
+  }));
 
-  const onSubmit = data => {
+
+  const onSubmit = (data) => {
+    const query = {};
+
+    if (data.brand) query.brand = data.brand;
+    if (data.price) query.rentalPrice = Number(data.price);
+    if (typeof data.mileageFrom === 'number') query.minMileage = data.mileageFrom;
+    if (typeof data.mileageTo === 'number') query.maxMileage = data.mileageTo;
+
     dispatch(setFilters(data));
-
-    const query = {
-      ...(data.brand && { brand: data.brand }),
-      ...(data.price && { rentalPrice: data.price }),
-      ...(data.mileageFrom && { minMileage: data.mileageFrom }),
-      ...(data.mileageTo && { maxMileage: data.mileageTo }),
-    };
-
     dispatch(getCars(query));
+     if (onSearch) onSearch(); 
   };
 
   return (
@@ -52,11 +56,10 @@ const Filter = () => {
               options={brandOptions}
               placeholder="Choose a brand"
               isSearchable
-              className={styles.selectInput}
               styles={customSelectStyles}
               classNamePrefix="select"
-              onChange={opt => field.onChange(opt?.value || '')}
               value={brandOptions.find(opt => opt.value === field.value) || null}
+              onChange={opt => field.onChange(opt?.value || '')}
             />
           )}
         />
@@ -71,57 +74,55 @@ const Filter = () => {
             <Select
               {...field}
               options={priceOptions}
-              className={styles.selectInput}
-              styles={customSelectStyles}
               placeholder="Choose a price"
+              styles={customSelectStyles}
               classNamePrefix="select"
-              onChange={opt => field.onChange(opt?.value || null)}
+              classNames={styles.selectInput}
               value={priceOptions.find(opt => opt.value === field.value) || null}
+              onChange={opt => field.onChange(opt?.value ?? null)}
             />
           )}
         />
       </div>
-
-<div className={styles.mileage}>
-  <Controller
-    name="mileageFrom"
-    control={control}
-    render={({ field }) => (
-      <NumericFormat
-        {...field}
-        allowNegative={false}
-        thousandSeparator=","
-        placeholder="From"
-        className={styles.mileageInput}
-        value={field.value}
-        onValueChange={({ floatValue }) => {
-          field.onChange(floatValue ?? '');
-        }}
-        prefix="From "
-        displayType="input"
-      />
-    )}
-  />
-  <Controller
-    name="mileageTo"
-    control={control}
-    render={({ field }) => (
-      <NumericFormat
-        {...field}
-        allowNegative={false}
-        thousandSeparator=","
-        placeholder="To"
-        className={styles.mileageToInput}
-        value={field.value}
-        onValueChange={({ floatValue }) => {
-          field.onChange(floatValue ?? '');
-        }}
-        prefix="To "
-        displayType="input"
-      />
-    )}
-  />
-</div>
+    <div className={styles.field}>
+      <label className={styles.label}>Car mileage / km</label>
+      <div className={styles.mileage}>
+        <Controller
+          name="mileageFrom"
+          control={control}
+          render={({ field }) => (
+            <NumericFormat
+              thousandSeparator=","
+              allowNegative={false}
+              placeholder="From"
+              prefix="From "
+              className={styles.mileageInput}
+              value={field.value || ''}
+              onValueChange={({ floatValue }) => {
+                field.onChange(floatValue ?? null);
+              }}
+            />
+          )}
+        />
+        <Controller
+          name="mileageTo"
+          control={control}
+          render={({ field }) => (
+            <NumericFormat
+              thousandSeparator=","
+              allowNegative={false}
+              placeholder="To"
+              prefix="To "
+              className={styles.mileageToInput}
+              value={field.value || ''}
+              onValueChange={({ floatValue }) => {
+                field.onChange(floatValue ?? null);
+              }}
+            />
+          )}
+        />
+      </div>
+    </div>
 
       <div>
         <button type="submit" className={styles.button}>Search</button>
