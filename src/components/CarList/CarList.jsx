@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import CarCard from '../CarCard/CarCard';
 import LoadMore from '../LoadMore/LoadMore';
 import Loader from '../Loader/Loader';
+import Filter from '../Filter/Filter';
 import styles from './CarList.module.css';
 
 import {
@@ -11,7 +12,6 @@ import {
   selectError,
   selectLoading
 } from '../../redux/selectors/index';
-
 
 const CarList = () => {
   const cars = useSelector(selectCars);
@@ -36,14 +36,13 @@ const CarList = () => {
   if (loading) return <Loader />;
 
   return (
-    <div>
+    <div className={styles.wrapper}>
+      <Filter />
       <ul className={styles.carsList}>
         {cars.map((car, index) => (
-          <CarCard
-            key={car.id}
-            car={car}
-            ref={index === 0 ? topCardRef : null}
-          />
+          <li key={car.id} ref={index === 0 ? topCardRef : null}>
+            <CarCard car={car} />
+          </li>
         ))}
       </ul>
       <LoadMore />

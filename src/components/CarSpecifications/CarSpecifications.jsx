@@ -12,6 +12,7 @@ const CarSpecifications = ({ year, type, fuelConsumption, engineSize }) => {
         { icon: <FaCog />, label: 'Engine Size', value: `${engineSize} L` },
     ];
 
+    
     return (
         <div className={styles .listContainer}>
             <h3 className={styles .subtitle}>Car Specifications:</h3>

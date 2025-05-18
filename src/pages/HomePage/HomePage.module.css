@@ -66,6 +66,8 @@
   line-height: 1.25;
   color: #fff;
   border: none;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
 .viewBtn:hover {

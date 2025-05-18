@@ -1,14 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getBrands } from "../actions/favoritesActions";
 
 const initialState = {
-  brand: "",
-  price: "",
-  mileageFrom: "",
-  mileageTo: "",
-  brandsList: [],
-  isLoading: false,
-  error: null,
+  filters: {
+    brand: "",
+    price: null,
+    mileageFrom: "",
+    mileageTo: "",
+  },
 };
 
 const filtersSlice = createSlice({
@@ -16,35 +14,12 @@ const filtersSlice = createSlice({
   initialState,
   reducers: {
     setFilters(state, action) {
-      const { brand, price, mileageFrom, mileageTo } = action.payload;
-      state.brand = brand;
-      state.price = price;
-      state.mileageFrom = mileageFrom;
-      state.mileageTo = mileageTo;
-    },
-    clearFilters(state) {
-      state.brand = "";
-      state.price = "";
-      state.mileageFrom = "";
-      state.mileageTo = "";
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(getBrands.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getBrands.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.brandsList = action.payload;
-      })
-      .addCase(getBrands.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
+      Object.keys(action.payload).forEach((key) => {
+        state.filters[key] = action.payload[key];
       });
+    },
   },
 });
 
-export const { setFilters, clearFilters } = filtersSlice.actions;
-export default filtersSlice.reducer;
+export const { setFilters } = filtersSlice.actions;
+export const filtersReducer = filtersSlice.reducer;

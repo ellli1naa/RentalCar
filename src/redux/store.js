@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { carsReducer } from "./reducers/carsReducer";
-import filtersReducer from "./reducers/filtersReducer";
-import favouritesReducer from "./reducers/favouritesReducer";
+import { filtersReducer } from "./reducers/filtersReducer";
+import { favouritesReducer } from "./reducers/favouritesReducer";
 
 import storage from "redux-persist/lib/storage";
 import {
@@ -17,8 +17,8 @@ import {
 
 const favouritesPersistConfig = {
   key: "favourites",
-  version: 1,
   storage,
+  whitelist: ["cars"],
 };
 
 const persistedFavouritesReducer = persistReducer(

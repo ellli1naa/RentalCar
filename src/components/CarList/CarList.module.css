@@ -1,7 +1,17 @@
-.list {
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carsList {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 32px;
   justify-content: center;
-  padding: 20px 0;
+  padding: 0;
+  list-style: none;
+  max-width: 1200px;
+  margin: 0;
+  margin-bottom: 80px;
 }

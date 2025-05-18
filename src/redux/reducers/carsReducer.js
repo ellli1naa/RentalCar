@@ -55,5 +55,5 @@ const carsSlice = createSlice({
   },
 });
 
-export const { resetCars, incrementPage } = carsSlice.actions;
+export const { incrementPage } = carsSlice.actions;
 export const carsReducer = carsSlice.reducer;

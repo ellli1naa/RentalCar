@@ -9,7 +9,7 @@ export const getCars = createAsyncThunk(
     thunkAPI
   ) => {
     try {
-      const { data } = await axios("cars", {
+      const { data } = await axios.get("cars", {
         params: { brand, rentalPrice, minMileage, maxMileage, limit, page },
       });
       return data;
@@ -23,7 +23,7 @@ export const getCarById = createAsyncThunk(
   "getCarById",
   async (id, thunkAPI) => {
     try {
-      const { data } = await axios(`cars/${id}`);
+      const { data } = await axios.get(`/cars/${id}`);
       return data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);
@@ -33,7 +33,7 @@ export const getCarById = createAsyncThunk(
 
 export const getBrands = createAsyncThunk("getBrands", async (_, thunkAPI) => {
   try {
-    const { data } = await axios("brands");
+    const { data } = await axios.get("/brands");
     return data;
   } catch (e) {
     return thunkAPI.rejectWithValue(e.message);

@@ -6,6 +6,7 @@ const HomePage = () => {
   return (
 
     <div className={styles.homePage}>
+      <Header />
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>Find your perfect rental car</h1>
         <h2 className={styles.heroSubtitle}>

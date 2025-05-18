@@ -1,9 +1,11 @@
-import CarDetails from '../../components/CarDetails/CarDetails';
+import CarDetail from '../../components/CarDetail/CarDetail';
+import Header from "../../components/Header/Header";
 
 const SingleCarPage = () => {
   return (
     <>
-      <CarDetails />
+      <Header />
+      <CarDetail />
     </>
 );
 };
