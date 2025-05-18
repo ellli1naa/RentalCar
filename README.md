@@ -1,12 +1,59 @@
-# React + Vite
+# RentalCar
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern frontend web application for the "RentalCar" company, enabling users to browse, filter, and rent vehicles seamlessly.
 
-Currently, two official plugins are available:
+## Overview
+RentalCar is a responsive React application designed for a car rental company. It allows users to:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Browse a catalog of available vehicles.
+Filter cars by brand, price, and mileage.
+View detailed information about each car.
+Add cars to a favorites list.
+Submit a rental request via a form.
+The application interacts with a backend API for data retrieval and submission.
 
-## Expanding the ESLint configuration
+### Technologies Used
+Frontend: React, Vite, React Router
+State Management: Redux
+HTTP Client: Axios
+Styling: CSS Modules
+Backend API: Car Rental API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Usage
+Home Page: Click on "View Catalog" to navigate to the catalog page.
+
+Catalog Page:
+Use filters to narrow down vehicle options.
+Click "Read more" on a vehicle card to view details.
+Click the heart icon to add a vehicle to favorites.
+Click "Load More" to fetch additional vehicles.
+
+Car Details Page:
+Review detailed information and images.
+Fill out the rental form and submit.
+A success notification will appear upon successful submission.
+
+## Installation:
+```bash
+1. Clone the repository:
+git clone https://github.com/ellli1naa/RentalCar.git
+
+2. Navigate to the project directory:
+cd RentalCar
+
+3. Install dependencies:
+npm install
+
+4. Start the development server:
+npm run dev
+
+5. Build for production: 
+npm run build
+```
+
+## Author
+Name: Elina Soloviova
+GitHub: [@ellli1naa](https://github.com/ellli1naa)
+Email: elinaslvv@gmail.com
+LinkedIn: https://www.linkedin.com/in/elina-soloviova/
+Check it out: Deployed and live here: 
