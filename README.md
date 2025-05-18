@@ -78,5 +78,5 @@ Email: elinaslvv@gmail.com
 
 LinkedIn: https://www.linkedin.com/in/elina-soloviova/
 
-Check it out: Deployed and live here: 
+Check it out: Deployed and live here: https://rental-car-navy-ten.vercel.app/
 
